@@ -3,271 +3,231 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CLANS</title>
+  <title>Naruto Clans</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Oxanium:wght@300;700&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      background: linear-gradient(45deg, #ff6b6b, #f7d794);
-      margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Oxanium', sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
     }
 
-    header {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      padding: 10px;
-      gap: 10px;
-      font-size: 22px;
-      color: white;
+    .clan {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
     }
 
-    .right-group {
+    .clan:hover {
+      transform: scale(1.02);
+    }
+
+    .clan-header {
+      padding: 16px;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
-      gap: 30px;
-      font-size: 16px;
-    }
-
-    .Menu {
-      display: flex;
-      gap: 30px;
-    }
-
-    .Menu a {
       color: white;
+      font-family: 'Bangers', cursive;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+
+    .uchiha .clan-header {
+      background: linear-gradient(to right, #8B0000, #b22222);
+    }
+
+    .senju .clan-header {
+      background: linear-gradient(to right, #2e8b57, #3cb371);
+    }
+
+    .hyuga .clan-header {
+      background: linear-gradient(to right, #dcdcdc, #a9a9a9);
+      color: black;
+    }
+
+    .uzumaki .clan-header {
+      background: linear-gradient(to right, #ff8c00, #ffa500);
+      color: black;
+    }
+
+    .otsusuki .clan-header {
+      background: linear-gradient(to right, #4b0082, #9370db);
+    }
+
+    .clan-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .clan-logo {
+      width: 60px;
+      height: 60px;
+    }
+
+    .clan-menu a {
+      margin: 0 12px;
       text-decoration: none;
-      font-weight: 500;
+      color: inherit;
+      font-weight: 700;
+      font-family: 'Bangers', cursive;
+      transition: color 0.3s;
+      font-size: 1.1rem;
     }
 
-    .Menu a:hover {
-      text-decoration: underline;
-      text-shadow: white 1px 0 10px;
+    .clan-menu a:hover {
+      color: #ffd700;
     }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: transform 0.8s ease;
+    .character-card {
+      text-align: center;
+      padding: 20px;
+      background: #eee;
     }
 
-    section:hover .logo-container {
-      transform: translateX(20px);
+    .uchiha .character-card {
+      background: linear-gradient(to right, #330000, #660000);
     }
 
-    .logo-container img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
+    .senju .character-card {
+      background: linear-gradient(to right, #2e8b57, #66cdaa);
     }
 
-    footer {
-      background-color: #000;
+    .hyuga .character-card {
+      background: linear-gradient(to right, #e6e6e6, #cccccc);
+    }
+
+    .uzumaki .character-card {
+      background: linear-gradient(to right, #ffcc66, #ff9933);
+    }
+
+    .otsusuki .character-card {
+      background: linear-gradient(to right, #4b0082, #ba55d3);
+    }
+
+    .character-card img {
+      height: 250px;
+      transition: transform 0.4s ease;
+    }
+
+    .clan:hover .character-card img {
+      transform: scale(1.05);
+    }
+
+    .clan-footer {
+      background: #222;
       color: white;
       text-align: center;
-      padding: 15px 0;
-      margin-top: 20px;
-      font-size: 0.9rem;
-    }
-
-    .uchiha-header { background-color: #8B0000; }
-    .senju-header { background-color: #228B22; }
-    .hyuga-header { background-color: #B0C4DE; color: black; }
-    .uzumaki-header { background-color: #FFA500; color: black; }
-    .otsusuki-header { background-color: #4B0082; }
-
-    section {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .character-popup {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.1);
-      opacity: 0;
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    header:hover .character-popup {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .character-popup img {
-      width: 100px;
-      height: 200px;
-    }
-
-
-    .uchiha-character img {
-      filter: drop-shadow(0 0 20px red);
-      animation: fadeInUchiha 0.6s ease-out forwards;
-    }
-
-    @keyframes fadeInUchiha {
-      from { opacity: 0; transform: scale(0.6); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .senju-character img {
-      filter: drop-shadow(0 0 20px #00ff00);
-      animation: riseSenju 0.6s ease-out forwards;
-    }
-
-    @keyframes riseSenju {
-      from { opacity: 0; transform: translateY(30px) scale(0.7); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .hyuga-character img {
-      filter: drop-shadow(0 0 10px white);
-      animation: pulseHyuga 1s ease-in-out infinite alternate;
-    }
-
-    @keyframes pulseHyuga {
-      from { transform: scale(0.95); opacity: 0.8; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .uzumaki-character img {
-      filter: drop-shadow(0 0 15px orange);
-      animation: bounceNaruto 0.6s ease-out forwards;
-    }
-
-    @keyframes bounceNaruto {
-      0% { transform: scale(0.3); opacity: 0; }
-      50% { transform: scale(1.1); opacity: 1; }
-      70% { transform: scale(0.9); }
-      100% { transform: scale(1); }
-    }
-
-    .otsusuki-character img {
-      filter: drop-shadow(0 0 25px #b266ff);
-      animation: floatOtsusuki 1s ease-out forwards;
-    }
-
-    @keyframes floatOtsusuki {
-      from { transform: scale(0.5); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      padding: 10px;
+      font-size: 0.85rem;
+      font-family: 'Oxanium', sans-serif;
     }
   </style>
 </head>
 <body>
-
-<section class="uchiha">
-  <header class="uchiha-header">
-    <div class="logo-container">
-      <img src="./assets/UCHIHA-removebg-preview.png" alt="Uchiha">
-      <h2>UCHIHA</h2>
-    </div>
-    <div class="right-group">
-      <nav class="Menu">
-        <a href="#"><h4>About</h4></a>
-        <a href="#"><h4>Contact</h4></a>
-        <a href="#"><h4>Sign Up</h4></a>
-        <a href="#"><h4>Login</h4></a>
+  <section class="clan uchiha">
+    <header class="clan-header">
+      <div class="clan-info">
+        <img src="./assets/img/UCHIHA-removebg-preview.png" alt="Uchiha Symbol" class="clan-logo">
+        <h2>UCHIHA</h2>
+      </div>
+      <nav class="clan-menu">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Sign Up</a>
+        <a href="#">Login</a>
       </nav>
+    </header>
+    <div class="character-card">
+      <img src="./assets/img/Itachi-removebg-preview.png" alt="Itachi Uchiha">
     </div>
-    <div class="character-popup uchiha-character">
-      <img src="./assets/Itachi-removebg-preview.png" alt="Itachi Uchiha">
-    </div>
-  </header>
-  <footer><h3>Reyes, Albert Andrei B | TC05</h3></footer>
-</section>
+    <footer class="clan-footer">Reyes, Albert Andrei B | TC05</footer>
+  </section>
 
-<section class="senju">
-  <header class="senju-header">
-    <div class="logo-container">
-      <img src="./assets/senjuclan-removebg-preview.png" alt="Senju">
-      <h2>SENJU</h2>
-    </div>
-    <div class="right-group">
-      <nav class="Menu">
-        <a href="#"><h4>About</h4></a>
-        <a href="#"><h4>Contact</h4></a>
-        <a href="#"><h4>Sign Up</h4></a>
-        <a href="#"><h4>Login</h4></a>
+  <section class="clan senju">
+    <header class="clan-header">
+      <div class="clan-info">
+        <img src="./assets/img/senjuclan-removebg-preview.png" alt="Senju Symbol" class="clan-logo">
+        <h2>SENJU</h2>
+      </div>
+      <nav class="clan-menu">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Sign Up</a>
+        <a href="#">Login</a>
       </nav>
+    </header>
+    <div class="character-card">
+      <img src="./assets/img/hashirama-removebg-preview.png" alt="Hashirama Senju">
     </div>
-    <div class="character-popup senju-character">
-      <img src="./assets/hashirama-removebg-preview.png" alt="Hashirama Senju">
-    </div>
-  </header>
-  <footer><h3>Reyes, Albert Andrei B | TC05</h3></footer>
-</section>
+    <footer class="clan-footer">Reyes, Albert Andrei B | TC05</footer>
+  </section>
 
-<section class="hyuga">
-  <header class="hyuga-header">
-    <div class="logo-container">
-      <img src="./assets/Hyuga-removebg-preview.png" alt="Hyuga">
-      <h2>HYUGA</h2>
-    </div>
-    <div class="right-group">
-      <nav class="Menu">
-        <a href="#"><h4>About</h4></a>
-        <a href="#"><h4>Contact</h4></a>
-        <a href="#"><h4>Sign Up</h4></a>
-        <a href="#"><h4>Login</h4></a>
+  <section class="clan hyuga">
+    <header class="clan-header">
+      <div class="clan-info">
+        <img src="./assets/img/Hyuga-removebg-preview.png" alt="Hyuga Symbol" class="clan-logo">
+        <h2>HYUGA</h2>
+      </div>
+      <nav class="clan-menu">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Sign Up</a>
+        <a href="#">Login</a>
       </nav>
+    </header>
+    <div class="character-card">
+      <img src="./assets/img/hinata-removebg-preview.png" alt="Hinata Hyuga">
     </div>
-    <div class="character-popup hyuga-character">
-      <img src="./assets/hinata-removebg-preview.png" alt="Hinata Hyuga">
-    </div>
-  </header>
-  <footer><h3>Reyes, Albert Andrei B | TC05</h3></footer>
-</section>
+    <footer class="clan-footer">Reyes, Albert Andrei B | TC05</footer>
+  </section>
 
-<section class="uzumaki">
-  <header class="uzumaki-header">
-    <div class="logo-container">
-      <img src="./assets/uzumaki-clan-symbol-naruto-free-vector-removebg-preview.png" alt="Uzumaki">
-      <h2>UZUMAKI</h2>
-    </div>
-    <div class="right-group">
-      <nav class="Menu">
-        <a href="#"><h4>About</h4></a>
-        <a href="#"><h4>Contact</h4></a>
-        <a href="#"><h4>Sign Up</h4></a>
-        <a href="#"><h4>Login</h4></a>
+  <section class="clan uzumaki">
+    <header class="clan-header">
+      <div class="clan-info">
+        <img src="./assets/img/uzumaki-clan-symbol-naruto-free-vector-removebg-preview.png" alt="Uzumaki Symbol" class="clan-logo">
+        <h2>UZUMAKI</h2>
+      </div>
+      <nav class="clan-menu">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Sign Up</a>
+        <a href="#">Login</a>
       </nav>
+    </header>
+    <div class="character-card">
+      <img src="./assets/img/Naruto.webp" alt="Naruto Uzumaki">
     </div>
-    <div class="character-popup uzumaki-character">
-      <img src="./assets/Naruto.webp" alt="Naruto Uzumaki">
-    </div>
-  </header>
-  <footer><h3>Reyes, Albert Andrei B | TC05</h3></footer>
-</section>
+    <footer class="clan-footer">Reyes, Albert Andrei B | TC05</footer>
+  </section>
 
-<section class="otsusuki">
-  <header class="otsusuki-header">
-    <div class="logo-container">
-      <img src="./assets/OTSUSUKI.png" alt="Otsusuki">
-      <h2>OTSUSUKI</h2>
-    </div>
-    <div class="right-group">
-      <nav class="Menu">
-        <a href="#"><h4>About</h4></a>
-        <a href="#"><h4>Contact</h4></a>
-        <a href="#"><h4>Sign Up</h4></a>
-        <a href="#"><h4>Login</h4></a>
+  <section class="clan otsusuki">
+    <header class="clan-header">
+      <div class="clan-info">
+        <img src="./assets/img/OTSUSUKI.png" alt="Otsusuki Symbol" class="clan-logo">
+        <h2>OTSUSUKI</h2>
+      </div>
+      <nav class="clan-menu">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Sign Up</a>
+        <a href="#">Login</a>
       </nav>
+    </header>
+    <div class="character-card">
+      <img src="./assets/img/KaguyaNaruto.webp" alt="Kaguya Otsusuki">
     </div>
-    <div class="character-popup otsusuki-character">
-      <img src="./assets/KaguyaNaruto.webp" alt="Kaguya Otsusuki">
-    </div>
-  </header>
-  <footer><h3>Reyes, Albert Andrei B | TC05</h3></footer>
-</section>
-
+    <footer class="clan-footer">Reyes, Albert Andrei B | TC05</footer>
+  </section>
 </body>
 </html>
